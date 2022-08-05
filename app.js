@@ -1,5 +1,6 @@
 const express = require('express'); //Importation d'express dans notre fichier 'app.js'.
 const mongoose = require('mongoose'); //Importation de mongoose dans notre fichier 'app.js'.
+//const helmet = require('helmet');
 const path = require('path');
 
 const sauceRoutes = require('./routes/sauce') //Importation des routes 'sauce' dans notre fichier 'app.js'.
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+//app.use(helmet());
 
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
