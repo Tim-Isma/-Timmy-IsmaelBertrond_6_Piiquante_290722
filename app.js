@@ -1,19 +1,24 @@
-const express = require('express'); //Importation d'express dans notre fichier 'app.js'.
-const mongoose = require('mongoose'); //Importation de mongoose dans notre fichier 'app.js'.
-//const helmet = require('helmet');
-const path = require('path');
+const express = require('express'); //Importation d'express.
+const mongoose = require('mongoose'); //Importation de mongoose.
+const path = require('path'); //Importation du module path. 
+const dotenv = require('dotenv').config(); //Importation dotenv qui va nous permettre d'utiliser les variables d'environnement.
 
-const sauceRoutes = require('./routes/sauce') //Importation des routes 'sauce' dans notre fichier 'app.js'.
-const userRoutes = require('./routes/user') //Importation des routes 'user' dans notre fichier 'app.js'.
+const helmet = require('helmet');//Importation de Helmet. 
 
-const app = express(); //On va créer une application express.
+const sauceRoutes = require('./routes/sauce'); //Importation des routes 'sauce'.
+const userRoutes = require('./routes/user'); //Importation des routes 'user'.
 
-mongoose.connect('mongodb+srv://Bertrond:Acerbe!2309@cluster23.u3ckj.mongodb.net/?retryWrites=true&w=majority',
+const app = express(); //Création de l'application express.
+
+// Connection avec la base de donnée MongoDB.
+mongoose.connect(
+  process.env.SECRET_DB,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+// Configuration du middleware pour le CORS. 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -21,12 +26,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-//app.use(helmet());
+app.use(helmet.xssFilter()); //Protègent contre les attaques cross-site scripting (XSS).
+
+app.use(express.json()); //Intercepte les requêtes entrantes qui a un content-type en JSON. Les corps de nos requêtes seront en JSON
 
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
-module.exports = app; //On va exporter cette application.
+module.exports = app; //Exportation de l'application.

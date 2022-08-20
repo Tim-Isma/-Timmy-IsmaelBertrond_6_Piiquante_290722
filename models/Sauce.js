@@ -1,4 +1,4 @@
-const mongoose = require('mongoose'); //Importation de mongoose dans le fichier 'Sauce.js'.
+const mongoose = require('mongoose'); //Importation de mongoose.
 
 const sauceSchema = mongoose.Schema({
     userId: { type: String, require: true },

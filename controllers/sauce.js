@@ -1,9 +1,9 @@
-//Intégration de la logique métier.
-
 const Sauce = require('../models/Sauce'); //Importation du model 'Sauce'.
-const fs = require('fs');
 
-exports.createSauce = (req, res, next) => {
+const fs = require('fs'); //Importation du module 'fs', qui va être très utiles pour accéder et interagir avec le système de fichiers.
+
+//Middleware qui va nous permettre de créer notre Objet.
+exports.createSauce = (req, res) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
     delete sauceObject._userId;
@@ -17,19 +17,22 @@ exports.createSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-exports.getOneSauce = (req, res, next) => {
+//Middleware qui va nous permettre de lire notre Objet.
+exports.getOneSauce = (req, res) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => res.status(201).json(sauce))
         .catch(error => res.status(400).json({ error }));
 };
 
-exports.getAllSauce = (req, res, next) => {
+//Middleware qui va nous permettre de lire nos Objets.
+exports.getAllSauce = (req, res) => {
     Sauce.find()
         .then(sauces => res.status(201).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
 
-exports.modifySauce = (req, res, next) => {
+//Middleware qui va nous permettre de modifier notre Objet.
+exports.modifySauce = (req, res) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -51,7 +54,8 @@ exports.modifySauce = (req, res, next) => {
     });
 };
 
-exports.deleteSauce = (req, res, next) => {
+//Middleware qui va nous permettre de supprimer notre Objet.
+exports.deleteSauce = (req, res) => {
     Sauce.findOne({ _id: req.params.id})
         .then(sauce => {
             if (sauce.userId != req.auth.userId) {
@@ -70,7 +74,8 @@ exports.deleteSauce = (req, res, next) => {
         });
 };
 
-exports.likeDislikeSauce = (req, res, next) => {
+//Middleware qui va nous permettre de créer et de modifier nos likes et dislikes.
+exports.createLike = (req, res) => {
     let like = req.body.like
     console.log(req.body);
     console.log(req.params);

@@ -1,4 +1,4 @@
-const multer = require('multer'); //Importation de 'multer'.
+const multer = require('multer'); //Importation du package 'multer', c'est un gestionnaire de fichiers.
 
 const MIME_TYPES = {
     'image/jpg': 'jpg',

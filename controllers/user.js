@@ -1,8 +1,10 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const bcrypt = require('bcrypt'); //Importation du package de chiffrement 'bcrypt', il va nous permettre de hasher les mots de passe utilisateur.
+const jwt = require('jsonwebtoken'); //Importation du package 'jsonwebtoken', il va nous permettre de pouvoir créer et vérifier les tokens d'authentification.
 
-exports.signup = (req, res, next) => {
+const User = require('../models/User'); //Importation du model 'User'.
+
+//Middleware qui va nous permettre de créer des comptes utilisateur sécurisé.
+exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -16,7 +18,8 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {
+//Middleware qui va nous permettre de nous connecter à des comptes utilisateur de façon sécurisé.
+exports.login = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
