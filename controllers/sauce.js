@@ -2,7 +2,7 @@ const Sauce = require('../models/Sauce'); //Importation du model 'Sauce'.
 
 const fs = require('fs'); //Importation du module 'fs', qui va être très utiles pour accéder et interagir avec le système de fichiers.
 
-//Middleware qui va nous permettre de créer notre Objet.
+//Middleware qui va nous permettre de créer une sauce.
 exports.createSauce = (req, res) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
@@ -17,21 +17,21 @@ exports.createSauce = (req, res) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-//Middleware qui va nous permettre de lire notre Objet.
+//Middleware qui va nous permettre de lire une sauce.
 exports.getOneSauce = (req, res) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => res.status(201).json(sauce))
         .catch(error => res.status(400).json({ error }));
 };
 
-//Middleware qui va nous permettre de lire nos Objets.
+//Middleware qui va nous permettre de lire toutes les sauces.
 exports.getAllSauce = (req, res) => {
     Sauce.find()
         .then(sauces => res.status(201).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
 
-//Middleware qui va nous permettre de modifier notre Objet.
+//Middleware qui va nous permettre de modifier la sauce.
 exports.modifySauce = (req, res) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
@@ -54,7 +54,7 @@ exports.modifySauce = (req, res) => {
     });
 };
 
-//Middleware qui va nous permettre de supprimer notre Objet.
+//Middleware qui va nous permettre de supprimer la sauce.
 exports.deleteSauce = (req, res) => {
     Sauce.findOne({ _id: req.params.id})
         .then(sauce => {
@@ -74,7 +74,7 @@ exports.deleteSauce = (req, res) => {
         });
 };
 
-//Middleware qui va nous permettre de créer et de modifier nos likes et dislikes.
+//Middleware qui va nous permettre de créer et de modifier notre système de likes/dislikes.
 exports.createLike = (req, res) => {
     let like = req.body.like
     console.log(req.body);

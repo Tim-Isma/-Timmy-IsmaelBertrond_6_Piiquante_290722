@@ -1,4 +1,4 @@
-const multer = require('multer'); //Importation du package 'multer', c'est un gestionnaire de fichiers.
+const multer = require('multer'); //Importation du package 'multer', c'est un module de gestionnaire de fichiers.
 
 const MIME_TYPES = {
     'image/jpg': 'jpg',
@@ -6,6 +6,7 @@ const MIME_TYPES = {
     'image/png': 'png'
 };
 
+//Middleware qui va nous permettre gérer la gestion des fichiers image.
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images');

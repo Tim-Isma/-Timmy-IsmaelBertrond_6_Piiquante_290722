@@ -1,7 +1,7 @@
 const express = require('express'); //Importation d'express.
 const mongoose = require('mongoose'); //Importation de mongoose.
 const path = require('path'); //Importation du module path. 
-const dotenv = require('dotenv').config(); //Importation dotenv qui va nous permettre d'utiliser les variables d'environnement.
+require('dotenv').config(); //Importation dotenv qui va nous permettre d'utiliser des variables d'environnement.
 
 const helmet = require('helmet');//Importation de Helmet. 
 
@@ -30,6 +30,7 @@ app.use(helmet.xssFilter()); //Protègent contre les attaques cross-site scripti
 
 app.use(express.json()); //Intercepte les requêtes entrantes qui a un content-type en JSON. Les corps de nos requêtes seront en JSON
 
+// Les principaux chemin de l'api.
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));

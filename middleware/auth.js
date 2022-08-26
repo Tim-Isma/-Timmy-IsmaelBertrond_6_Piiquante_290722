@@ -1,5 +1,7 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); //Importation du module jsonwebtoken.
 
+
+//Middleware qui va nous permettre de sécuriser l'authentification utilisateur.
 module.exports = (req,res, next) => {
     try{
         const token = req.headers.authorization.split(' ')[1];
