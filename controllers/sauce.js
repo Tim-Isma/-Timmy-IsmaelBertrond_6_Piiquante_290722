@@ -77,8 +77,6 @@ exports.deleteSauce = (req, res) => {
 //Middleware qui va nous permettre de créer et de modifier notre système de likes/dislikes.
 exports.createLike = (req, res) => {
     let like = req.body.like
-    console.log(req.body);
-    console.log(req.params);
 
     switch (like) {
         case 1: 
